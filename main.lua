@@ -47,6 +47,9 @@ local LEVEL_THRESHOLD = {
 }
 local DEFAULT_LEVEL = 3
 
+-- 插件版本(发布时按需递增)
+local VERSION = "1.0"
+
 local Pinyin = WidgetContainer:extend{
     name = "pinyin",
     is_doc_only = true,
@@ -156,7 +159,7 @@ function Pinyin:drawPinyin(target_page)
     local plan = {}
     local stats = { boxes = 0, words = 0, chars = 0,
                     with_data = 0, shown = 0, filtered = 0,
-                    no_data = 0, no_word = 0 }
+                    no_data = 0 }
     local detail = {}
     local box_words = {}
     local MAX_DETAIL = 400
@@ -247,10 +250,10 @@ function Pinyin:drawPinyin(target_page)
 
     if self.debug then
         logger.warn(string.format(
-            "[Pinyin] page=%d level=%d show_all=%s thr=%d | boxes=%d words=%d chars=%d with_data=%d shown=%d filtered=%d no_data=%d no_word=%d iter=%d",
+            "[Pinyin] page=%d level=%d show_all=%s thr=%d | boxes=%d words=%d chars=%d with_data=%d shown=%d filtered=%d no_data=%d iter=%d",
             page, self.level, tostring(show_all), threshold,
             stats.boxes, stats.words, stats.chars, stats.with_data,
-            stats.shown, stats.filtered, stats.no_data, stats.no_word, iter))
+            stats.shown, stats.filtered, stats.no_data, iter))
         for _, l in ipairs(detail) do
             logger.warn("[Pinyin]" .. l)
         end
@@ -460,10 +463,8 @@ function Pinyin:genMenuItems()
             table.insert(lines, string.format("实际已注音 shown  = %d", s.shown))
             table.insert(lines, string.format("被等级过滤 filtered= %d", s.filtered))
             table.insert(lines, string.format("无拼音数据        = %d", s.no_data))
-            table.insert(lines, string.format("取不到字 no_word  = %d", s.no_word))
             table.insert(lines, "")
             table.insert(lines, "判读:")
-            table.insert(lines, "· no_word 很大 → 很多字取不到坐标(crengine 盒子问题)")
             table.insert(lines, "· level=5 但 filtered>0 → 等级逻辑异常")
             table.insert(lines, "· shown 远小于 chars → 大量字被等级过滤或数据缺失")
             if self.last_box_words and #self.last_box_words > 0 then
@@ -494,18 +495,18 @@ function Pinyin:genMenuItems()
         text = _("关于 / 帮助"),
         keep_menu_open = true,
         callback = function()
-            UIManager:show(InfoMessage:new{
-                text = _([[
-汉字拼音标注 (Pinyin)
-
-在中文页面每个汉字上方叠加拼音, 仿 Kindle "生字注音"。
-· 标注等级: 控制只给多生僻的字注音(1 最严, 5 全文)。
-· 已测试: EPUB / DOCX / HTML(建议用 EPUB); 其它格式未测试, 可能显示不出拼音。
-· PDF / DjVu 因引擎限制暂不支持。
-· 翻页后自动重绘; 关闭则清除标注。
-
-数据来自 mozillazg/pinyin-data 与 Unicode Unihan 词频。]]),
-            })
+            local about = string.format(
+                "汉字拼音标注 (Pinyin)  v%s\n\n" ..
+                "在中文页面每个汉字上方叠加拼音, 仿 Kindle \"生字注音\"。\n" ..
+                "· 标注等级: 控制只给多生僻的字注音(1 最严, 5 全文)。\n" ..
+                "· 已测试: EPUB / DOCX / HTML(建议用 EPUB); 其它格式未测试, 可能显示不出拼音。\n" ..
+                "· PDF / DjVu 因引擎限制暂不支持。\n" ..
+                "· 翻页后自动重绘; 关闭则清除标注。\n\n" ..
+                "数据来自 mozillazg/pinyin-data 与 Unicode Unihan 词频。\n\n" ..
+                "Copyright (C) 2026 zhouwt — 以 GPL-3.0 协议发布(见 LICENSE)。\n" ..
+                "仓库: https://github.com/zhouwt/pinyin.koplugin",
+                VERSION)
+            UIManager:show(InfoMessage:new{ text = about })
         end,
     })
 
