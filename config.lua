@@ -1,5 +1,6 @@
 --[[--
 pinyin.koplugin 配置文件
+Copyright (C) 2026 zhouwt — 以 GPL-3.0 协议发布 (见 LICENSE)
 
 修改本文件后, 重启 KOReader 才会生效。
 两项高级开关默认均为关闭 (false)。

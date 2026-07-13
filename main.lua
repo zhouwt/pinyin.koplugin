@@ -1,5 +1,6 @@
 --[[--
 汉字拼音标注插件 (Pinyin Annotator for KOReader)
+Copyright (C) 2026 zhouwt — 以 GPL-3.0 协议发布 (见 LICENSE)
 
 仿 Kindle "生字注音" 功能: 在中文页面每个汉字上方(或下方)叠加拼音,
 并可按"常用度等级"控制只给较生僻的字注音。
