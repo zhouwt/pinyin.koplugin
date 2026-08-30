@@ -5,8 +5,8 @@ Copyright (C) 2026 zhouwt — 以 GPL-3.0 协议发布 (见 LICENSE)
 仿 Kindle "生字注音" 功能: 在中文页面每个汉字上方(或下方)叠加拼音,
 并可按"常用度等级"控制只给较生僻的字注音。
 
-性能优化(快筛+缓存+行级定位+时间预算)整合自社区改版, 字库与等级阈值沿用原版,
-保留全文注音(等级 5)能力。
+性能优化(快筛+缓存+行级定位+时间预算)只给真正要注音的字取屏幕盒子;
+字库与等级阈值沿用原版, 保留全文注音(等级 5)能力。
 
 @module koplugin.Pinyin
 --]]--
@@ -35,7 +35,7 @@ local CFG_DEBUG_LOG = PinyinConfig.enable_debug_log == true
 local CFG_SHOW_DIAG = PinyinConfig.show_diagnostics == true
 
 -- 等级阈值: rank 越大越生僻。show = (等级==5) 或 (rank > 阈值)
--- 即等级越低, 只给越生僻的字注音; 等级 5 = 全文注音(沿用原版, 不用社区改版的等差优化)。
+-- 即等级越低, 只给越生僻的字注音; 等级 5 = 全文注音(沿用原版等级表)。
 local LEVEL_THRESHOLD = {
     [1] = 7000,  -- 仅极生僻字
     [2] = 5500,
@@ -45,7 +45,7 @@ local LEVEL_THRESHOLD = {
 }
 local DEFAULT_LEVEL = 3
 
--- 插件版本(与开发迭代号对齐, 每次改版递增)
+-- 插件版本(与开发迭代号对齐, 每次发布递增)
 local VERSION = "1.1"
 
 local Pinyin = WidgetContainer:extend{

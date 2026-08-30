@@ -1,0 +1,34 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build release zip
+        run: |
+          mkdir -p dist
+          rsync -av \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='dist' \
+            --exclude='_gen' \
+            ./ dist/pinyin.koplugin/
+          cd dist
+          zip -r "pinyin.koplugin-${{ github.ref_name }}.zip" pinyin.koplugin/
+
+      - name: Upload release asset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.ref_name }}" \
+            "dist/pinyin.koplugin-${{ github.ref_name }}.zip" \
+            --clobber

@@ -46,14 +46,18 @@
 
 ## 安装
 
-1. 把本目录整体复制到 KOReader 的插件目录:
+1. 从 Release 下载 `pinyin.koplugin-vx.x.x.zip`，解压后得到 `pinyin.koplugin/` 文件夹。
+
+   * **注意**:KOReader 要求插件文件夹名必须严格为 `pinyin.koplugin`。**如果解压出来是 `pinyin.koplugin-v1.1` 这类带版本号的文件夹，请手动重命名为 `pinyin.koplugin`**。
+
+2. 把 `pinyin.koplugin/` 复制到 KOReader 的插件目录:
 
    * 设备:`koreader/plugins/pinyin.koplugin/`
 
    * 或 KOReader 的 `plugins/` 目录(与官方插件同级)
-2. 重启 KOReader。
-3. 打开一本中文书 → 顶部菜单 → **「工具」→「汉字拼音 (Pinyin)」**。
-4. 点「开启拼音标注」即可。
+3. 重启 KOReader。
+4. 打开一本中文书 → 顶部菜单 → **「工具」→「汉字拼音 (Pinyin)」**。
+5. 点「开启拼音标注」即可。
 
 > 插件目录结构(直接拷到 KOReader 即可用):
 >
